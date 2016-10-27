@@ -1,0 +1,19 @@
+{
+  "name": "simukgak-server",
+  "version": "0.0.1",
+  "description": "Server for Simukgak Project",
+  "engines": {
+    "node": "6.8.1"
+  },
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "socket.io": "1.5.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Bubbler-4/SimukgakServer"
+  }
+}
