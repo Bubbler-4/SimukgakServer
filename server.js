@@ -42,7 +42,7 @@ io.on('connection', function(socket) {
 		console.log("Received a message to", id, "saying:", msg);
 		if(id2socket[id]) {
 			console.log("Sending the message");
-			socket.broadcast.to(id2socket[id]).emit('message', {
+			io.sockets.in(id2socket[id]).emit('message', {
 				id: socket2id[socket.id],
 				msg: msg
 			});
