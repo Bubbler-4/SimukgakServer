@@ -27,7 +27,25 @@ server.listen(process.env.PORT || PORT, function() {
 
 var io = require('socket.io')(server);
 
+var id2socket = {};
+var socket2id = {};
+
 io.on('connection', function(socket) {
 	console.log("Connection established with a client");
-	socket.emit('event');
+	socket.on('id', function(data) {
+		console.log("The socket's ID is", data);
+		id2socket[data] = socket.id;
+		socket2id[socket.id] = data;
+	}).on('message', function(data) {
+		var id = data.id;
+		var msg = data.msg;
+		console.log("Received a message to", id, "saying:", msg);
+		if(id2socket[id]) {
+			console.log("Sending the message");
+			socket.broadcast.to(id2socket[id]).emit('message', {
+				id: socket2id[socket.id],
+				msg: msg
+			});
+		}
+	});
 });
