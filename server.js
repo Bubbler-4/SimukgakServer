@@ -46,6 +46,12 @@ io.on('connection', function(socket) {
 				id: socket2id[socket.id],
 				msg: msg
 			});
+		} else {
+			console.log("No such id found");
+			socket.emit('messageFail');
 		}
+	}).on('disconnect', function() {
+		id2socket[socket2id[socket.id]] = undefined;
+		socket2id[socket.id] = undefined;
 	});
 });
