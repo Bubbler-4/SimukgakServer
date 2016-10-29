@@ -21,12 +21,13 @@ function handleRequest(request, response) {
 
 var server = http.createServer(handleRequest);
 
-var socket = require('socket.io')(server);
-
-socket.on('connection', function(socket) {
-	console.log("Connection established with a client");
-});
-
 server.listen(process.env.PORT || PORT, function() {
     console.log("Server running on port", PORT);
+});
+
+var io = require('socket.io')(server);
+
+io.on('connection', function(socket) {
+	console.log("Connection established with a client");
+	socket.emit('event');
 });
