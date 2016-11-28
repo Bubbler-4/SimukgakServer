@@ -4,19 +4,7 @@ var url = require('url');
 const PORT = 8080; 
 
 function handleRequest(request, response) {
-	var numberStr = url.parse(request.url, true).query.number;
-	if(typeof numberStr == 'undefined') {
-		response.end('Invalid request');
-	}
-	else {
-		var number = parseInt(numberStr);
-		if(isNaN(number)) {
-			response.end('Not a number');
-		}
-		else {
-			response.end((number * 2).toString());
-		}
-	}
+	response.end("This server is not for web access. Sorry.")
 }
 
 var server = http.createServer(handleRequest);
@@ -27,31 +15,11 @@ server.listen(process.env.PORT || PORT, function() {
 
 var io = require('socket.io')(server);
 
-var id2socket = {};
-var socket2id = {};
-
 io.on('connection', function(socket) {
 	console.log("Connection established with a client");
-	socket.on('id', function(data) {
-		console.log("The socket's ID is", data);
-		id2socket[data] = socket.id;
-		socket2id[socket.id] = data;
+	socket.on('restaurantList', function(data) {
+		console.log("Category:", data);
 	}).on('message', function(data) {
-		var id = data.id;
-		var msg = data.msg;
-		console.log("Received a message to", id, "saying:", msg);
-		if(id2socket[id]) {
-			console.log("Sending the message");
-			io.sockets.in(id2socket[id]).emit('message', {
-				id: socket2id[socket.id],
-				msg: msg
-			});
-		} else {
-			console.log("No such id found");
-			socket.emit('messageFail');
-		}
 	}).on('disconnect', function() {
-		id2socket[socket2id[socket.id]] = undefined;
-		socket2id[socket.id] = undefined;
 	});
 });
