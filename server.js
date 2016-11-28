@@ -27,8 +27,8 @@ io.on('connection', function(socket) {
 	socket.on('restaurantList', function(category) {
 		// category: restaurant category as a string
 		// return the restaurant list in the given category
-		console.log("Category:", data);
-		socket.emit('restaurantList', restaurantLists[data]);
+		console.log("Category:", category);
+		socket.emit('restaurantList', restaurantLists[category]);
 	}).on('message', function(data) {
 	}).on('disconnect', function() {
 	});
