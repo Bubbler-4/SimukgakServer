@@ -33,6 +33,19 @@ var restaurantLists = {
 };
 
 var tokenList = {};
+var user2ID = {};
+var users2msgID = {};
+
+var dutchMsgID = 101;
+
+var nextDutchMsgID = function() {
+	var x = dutchMsgID;
+	dutchMsgID += 1;
+	if(dutchMsgID > 10000000) {
+		dutchMsgID = 101;
+	}
+	return x;
+};
 
 io.on('connection', function(socket) {
 	console.log("Connection established with a client");
@@ -41,6 +54,7 @@ io.on('connection', function(socket) {
 		// register username
 		console.log('Received token', token, 'whose username is', user);
 		tokenList[user] = token;
+		user2ID[user] = socket.id;
 	}).on('restaurantList', function(category) {
 		// category: restaurant category as a string
 		// return the restaurant list in the given category
@@ -53,7 +67,8 @@ io.on('connection', function(socket) {
 			data: {
 				title: '"더치페이 요청"',
 				message: '"' + nameFrom + '에게 ' + price + '원을 보내주세요."',
-				timestamp: Date.now()
+				timestamp: Date.now(),
+				messageID: nextDutchMsgID()
 			},
 			notification: {
 				title: '"더치페이 요청"',
@@ -68,8 +83,44 @@ io.on('connection', function(socket) {
 			}
 			else {
 				console.log('Push notification successful');
+				if(users2msgID[nameFrom] == null) {
+					users2msgID[nameFrom] = {};
+				}
+				if(users2msgID[nameFrom][nameTo] == null) {
+					users2msgID[nameFrom][nameTo] = [];
+				}
+				users2msgID[nameFrom][nameTo].push(message.data.messageID);
 			}
 		});
+	}).on('DutchDismiss', function(nameFrom, nameTo) {
+		// Dismiss all messages from nameFrom to nameTo
+		if(users2msgID[nameFrom] == null) {
+			users2msgID[nameFrom] = {};
+		}
+		if(users2msgID[nameFrom][nameTo] == null) {
+			users2msgID[nameFrom][nameTo] = [];
+		}
+		var len = users2msgID[nameFrom][nameTo].length;
+		for(var i = 0; i < len; i += 1) {
+			var message = {
+				to: tokenList[nameTo],
+				data: {
+					messageID: users2msgID[nameFrom][nameTo][i],
+					dismiss: true
+				}
+			};
+			console.log(message);
+			fcm.send(message, function(err, response) {
+				if(err) {
+					console.log('Error while sending push notification');
+					console.log(err);
+				}
+				else {
+					console.log('Push notification successful');
+				}
+			});
+		}
+		users2msgID[nameFrom][nameTo] = [];
 	}).on('disconnect', function() {
 	});
 });
