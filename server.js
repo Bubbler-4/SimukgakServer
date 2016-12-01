@@ -53,7 +53,7 @@ io.on('connection', function(socket) {
 			data: {
 				title: '더치페이 요청',
 				message: nameFrom + '에게 ' + price + '원을 보내주세요.',
-				timestamp: '' + (new Date().now())
+				timestamp: Date.now()
 			},
 			notification: {
 				title: '더치페이 요청',
