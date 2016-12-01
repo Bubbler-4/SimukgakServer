@@ -10,6 +10,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "firebase-admin": "^4.0.3",
     "socket.io": "1.5.1"
   },
   "repository": {

@@ -22,6 +22,13 @@ var restaurantLists = {
 	"일식": ["일식A", "일식B"]
 };
 
+var fbAdmin = require('firebase-admin');
+
+fbAdmin.initializeApp({
+	credential: admin.credential.cert('simukgak-firebase-adminsdk-oa3j3-61a6234572.json'),
+	databaseURL: "https://simukgak.firebaseio.com"
+});
+
 io.on('connection', function(socket) {
 	console.log("Connection established with a client");
 	socket.on('restaurantList', function(category) {
