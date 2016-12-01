@@ -30,7 +30,7 @@ fbApp = fbAdmin.initializeApp({
 });
 
 var FCM = require('fcm-push');
-var fcm = new FCM('AIzaSyDhVRkyPzVqMVftpmA3GPlEmp_Uy9KX9U4');
+var fcm = new FCM('AAAAdAxE6Hg:APA91bF0MoaZyRtvgZ2hoRNshMbCwFvn32Jpb8jpiqrozCyQiQGlXqrxk-VLp1xnjrqkU20kPQg8MvIillGsotRtPyc4MqiENvb9HQBExjuG_rrXgaktwmscyPej-8VvnuZ_vzV167ohpWJAa3XkRKBeyKteVvi2jQ');
 
 io.on('connection', function(socket) {
 	console.log("Connection established with a client");
