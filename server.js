@@ -24,13 +24,37 @@ var restaurantLists = {
 
 var fbAdmin = require('firebase-admin');
 
-fbAdmin.initializeApp({
+fbApp = fbAdmin.initializeApp({
 	credential: fbAdmin.credential.cert('simukgak-firebase-adminsdk-oa3j3-61a6234572.json'),
 	databaseURL: "https://simukgak.firebaseio.com"
 });
 
+var FCM = require('fcm-push');
+var fcm = new FCM('AIzaSyDhVRkyPzVqMVftpmA3GPlEmp_Uy9KX9U4');
+
 io.on('connection', function(socket) {
 	console.log("Connection established with a client");
+	
+	// Message test
+	var message = {
+		to: 'global',
+		data: {
+			testKey: 'testValue'
+		},
+		notification: {
+			title: 'Test Notification Title',
+			body: 'Test Notification Body'
+		}
+	};
+	fcm.send(message, function(err, response) {
+		if(err) {
+			console.log('Error while sending push notification');
+		}
+		else {
+			console.log('Push notification successful');
+		}
+	});
+	
 	socket.on('restaurantList', function(category) {
 		// category: restaurant category as a string
 		// return the restaurant list in the given category
