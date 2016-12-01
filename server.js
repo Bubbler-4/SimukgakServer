@@ -25,7 +25,7 @@ var restaurantLists = {
 var fbAdmin = require('firebase-admin');
 
 fbAdmin.initializeApp({
-	credential: admin.credential.cert('simukgak-firebase-adminsdk-oa3j3-61a6234572.json'),
+	credential: fbAdmin.credential.cert('simukgak-firebase-adminsdk-oa3j3-61a6234572.json'),
 	databaseURL: "https://simukgak.firebaseio.com"
 });
 
