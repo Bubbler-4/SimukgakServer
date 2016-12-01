@@ -47,9 +47,11 @@ io.on('connection', function(socket) {
 				body: 'Test Notification Body'
 			}
 		};
+		console.log(message);
 		fcm.send(message, function(err, response) {
 			if(err) {
 				console.log('Error while sending push notification');
+				console.log(err);
 			}
 			else {
 				console.log('Push notification successful');
