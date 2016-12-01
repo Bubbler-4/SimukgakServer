@@ -51,13 +51,13 @@ io.on('connection', function(socket) {
 		var message = {
 			to: tokenList[nameTo],
 			data: {
-				title: '더치페이 요청',
-				message: nameFrom + '에게 ' + price + '원을 보내주세요.',
+				title: '"더치페이 요청"',
+				message: '"' + nameFrom + '에게 ' + price + '원을 보내주세요."',
 				timestamp: Date.now()
 			},
 			notification: {
-				title: '더치페이 요청',
-				body: nameFrom + '에게 ' + price + '원을 보내주세요.'
+				title: '"더치페이 요청"',
+				body: '"' + nameFrom + '에게 ' + price + '원을 보내주세요."'
 			}
 		};
 		console.log(message);
