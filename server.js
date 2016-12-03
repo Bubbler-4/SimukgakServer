@@ -128,6 +128,10 @@ io.on('connection', function(socket) {
 		// return the menu list for the given restaurant
 		console.log("Restaurant:", restaurant);
 		socket.emit('menuList', menuLists[restaurant]);
+	}).on('Order', function(order) {
+		// order: object with fields store, timestamp, address, payment, items {menu, count}
+		// TODO send to the restaurant's device
+		console.log("Order:", order);
 	}).on('DutchRequest', function(nameFrom, nameTo, price) {
 		// Message test
 		var message = {
