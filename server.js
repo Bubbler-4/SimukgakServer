@@ -32,6 +32,69 @@ var restaurantLists = {
 	"일식": ["일식A", "일식B"]
 };
 
+var menuLists = {
+	"한식A": {
+		"카테고리1": {
+			"A11": 5000,
+			"A12": 5500
+		},
+		"카테고리2": {
+			"A21": 5500,
+			"A22": 6000
+		}
+	},
+	"한식B": {
+		"카테고리1": {
+			"B11": 5000,
+			"B12": 5500
+		},
+		"카테고리2": {
+			"B21": 5500,
+			"B22": 6000
+		}
+	},
+	"중식A": {
+		"카테고리1": {
+			"C11": 5000,
+			"C12": 5500
+		},
+		"카테고리2": {
+			"C21": 5500,
+			"C22": 6000
+		}
+	},
+	"중식B": {
+		"카테고리1": {
+			"D11": 5000,
+			"D12": 5500
+		},
+		"카테고리2": {
+			"D21": 5500,
+			"D22": 6000
+		}
+	},
+	"일식A": {
+		"카테고리1": {
+			"E11": 5000,
+			"E12": 5500
+		},
+		"카테고리2": {
+			"E21": 5500,
+			"E22": 6000
+		}
+	},
+	"일식B": {
+		"카테고리1": {
+			"F11": 5000,
+			"F12": 5500
+		},
+		"카테고리2": {
+			"F21": 5500,
+			"F22": 6000
+		}
+	}
+};
+
 var tokenList = {};
 var user2ID = {};
 var users2msgID = {};
@@ -60,6 +123,11 @@ io.on('connection', function(socket) {
 		// return the restaurant list in the given category
 		console.log("Category:", category);
 		socket.emit('restaurantList', restaurantLists[category]);
+	}).on('menuList', function(restaurant) {
+		// restaurant: restaurant name as a string
+		// return the menu list for the given restaurant
+		console.log("Restaurant:", restaurant);
+		socket.emit('menuList', menuLists[restaurant]);
 	}).on('DutchRequest', function(nameFrom, nameTo, price) {
 		// Message test
 		var message = {
