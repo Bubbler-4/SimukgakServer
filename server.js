@@ -114,6 +114,7 @@ var user2ID = {};
 var users2msgID = {};
 
 var credentials = {};
+var profiles = {};
 
 var dutchMsgID = 101;
 
@@ -147,6 +148,12 @@ io.on('connection', function(socket) {
 		else {
 			socket.emit('login', 'wrong pass');
 		}
+	}).on('registerProfile', function(id, img) {
+		// register profile image
+		profiles[id] = img;
+	}).on('requestProfile', function(id) {
+		// return profile image
+		socket.emit('profile', profiles[id]);
 	}).on('restaurantList', function(category) {
 		// category: restaurant category as a string
 		// return the restaurant list in the given category
