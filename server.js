@@ -150,6 +150,7 @@ io.on('connection', function(socket) {
 		}
 	}).on('registerProfile', function(id, img) {
 		// register profile image
+		console.log('Received profile of user', id, 'with image of size', img.length);
 		profiles[id] = img;
 	}).on('requestProfile', function(id) {
 		// return profile image
