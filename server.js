@@ -113,6 +113,8 @@ var tokenList = {};
 var user2ID = {};
 var users2msgID = {};
 
+var credentials = {};
+
 var dutchMsgID = 101;
 
 var nextDutchMsgID = function() {
@@ -132,6 +134,19 @@ io.on('connection', function(socket) {
 		console.log('Received token', token, 'whose username is', user);
 		tokenList[user] = token;
 		user2ID[user] = socket.id;
+	}).on('login', function(id, pw) {
+		// If the id is found, check the password
+		// Otherwise, consider it as a new user
+		if(credentials[id] == null) {
+			credentials[id] = pw;
+			socket.emit('login', 'new');
+		}
+		else if(credentials[id] == pw) {
+			socket.emit('login', 'success');
+		}
+		else {
+			socket.emit('login', 'wrong pass');
+		}
 	}).on('restaurantList', function(category) {
 		// category: restaurant category as a string
 		// return the restaurant list in the given category
