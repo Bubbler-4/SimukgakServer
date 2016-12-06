@@ -173,12 +173,15 @@ io.on('connection', function(socket) {
 		console.log("Order:", order);
 	}).on('Review', function(review) {
 		// review: object with fields id, profile, job, store, food, date, grade, comment
+		console.log("Review");
 		boardItems.push(review);
 	}).on('RequestReviews', function() {
 		// requestReviews: return boardItems
+		console.log("RequestReview");
 		socket.emit('reviewList', boardItems);
 	}).on('DeleteReview', function(index) {
 		// deleteReview: delete review item at index
+		console.log("DeleteReview");
 		boardItems.splice(index, 1);
 	}).on('DutchRequest', function(nameFrom, nameTo, price) {
 		// Message test
