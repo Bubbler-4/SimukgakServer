@@ -116,6 +116,8 @@ var users2msgID = {};
 var credentials = {};
 var profiles = {};
 
+var boardItems = [];
+
 var dutchMsgID = 101;
 
 var nextDutchMsgID = function() {
@@ -169,6 +171,12 @@ io.on('connection', function(socket) {
 		// order: object with fields store, timestamp, address, payment, items {menu, count}
 		// TODO send to the restaurant's device
 		console.log("Order:", order);
+	}).on('Review', function(review) {
+		// review: object with fields id, profile, job, store, food, date, grade, comment
+		boardItems.push(review);
+	}).on('RequestReviews', function() {
+		// requestReviews: return boardItems
+		socket.emit('reviewList', boardItems);
 	}).on('DutchRequest', function(nameFrom, nameTo, price) {
 		// Message test
 		var message = {
