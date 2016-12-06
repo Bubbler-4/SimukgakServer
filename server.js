@@ -177,6 +177,9 @@ io.on('connection', function(socket) {
 	}).on('RequestReviews', function() {
 		// requestReviews: return boardItems
 		socket.emit('reviewList', boardItems);
+	}).on('DeleteReview', function(index) {
+		// deleteReview: delete review item at index
+		boardItems.splice(index, 1);
 	}).on('DutchRequest', function(nameFrom, nameTo, price) {
 		// Message test
 		var message = {
