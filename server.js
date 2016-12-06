@@ -168,9 +168,9 @@ io.on('connection', function(socket) {
 		console.log("Restaurant:", restaurant);
 		socket.emit('menuList', menuLists[restaurant]);
 	}).on('Order', function(order) {
-		// order: object with fields store, timestamp, address, payment, items {menu, count}
-		// TODO send to the restaurant's device
+		// order: object with fields store, timestamp, address, payment, items {menu, price, count}
 		console.log("Order:", order);
+		socket.broadcast.to(user2ID[order.store]).emit('ReceiveOrder', order);
 	}).on('Review', function(review) {
 		// review: object with fields id, profile, job, store, food, date, grade, comment
 		console.log("Review");
